@@ -1,9 +1,10 @@
-import os
 import json
+import os
+
 from flask import current_app as app
-from sqlalchemy import Column, String, Integer, create_engine, ForeignKey
-from sqlalchemy.orm import relationship
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import Column, ForeignKey, Integer, String, create_engine
+from sqlalchemy.orm import relationship
 
 database_name = os.environ.get("DB") or "poetry-demo"
 user = os.environ.get("USER") or "postgres"

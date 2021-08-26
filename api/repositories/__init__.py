@@ -1,5 +1,6 @@
-from flask import jsonify, current_app
+from flask import current_app, jsonify
 from sqlalchemy import exc
+
 from api.exceptions import ApiError
 
 

@@ -1,9 +1,8 @@
 from flask_restful import Resource
-from flask import jsonify
-from api.repositories.user_repository import UserRepository
+
 from api.helpers.decorators import marshal_with, parse_with
-from api.schemas.user_schemas import UserSchema, UserCreateSchema
-from api.models import User
+from api.repositories.user_repository import UserRepository
+from api.schemas.user_schemas import UserCreateSchema, UserSchema
 
 
 class UserCollectionResource(Resource):

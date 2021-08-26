@@ -1,12 +1,13 @@
 from functools import wraps
-from flask import request, jsonify, make_response
+
+from flask import jsonify, make_response, request
 from marshmallow import ValidationError
-from api.exceptions import ApiError
 from sqlalchemy.exc import IntegrityError
+
+from api.exceptions import ApiError
 
 
 def parse_with(schema):
-
     def decorator(f):
         @wraps(f)
         def decorated_function(*args, **kwargs):
@@ -14,10 +15,7 @@ def parse_with(schema):
             if form_data:
                 data = {}
                 for key in form_data.keys():
-                    if (
-                        form_data.getlist(key)
-                        and len(form_data.getlist(key)) > 1
-                    ):
+                    if form_data.getlist(key) and len(form_data.getlist(key)) > 1:
                         data[key] = form_data.getlist(key)
                     else:
                         data[key] = form_data[key]
@@ -30,17 +28,11 @@ def parse_with(schema):
                     api_error = args[0]
                     if isinstance(api_error, ApiError):
                         return make_response(
-                            jsonify(
-                                {"error": True, "message": api_error.message}
-                            ),
+                            jsonify({"error": True, "message": api_error.message}),
                             api_error.status_code,
                         )
                 return make_response(
-                    jsonify({
-                        "error": True,
-                        "message": err.messages
-                    }),
-                    400
+                    jsonify({"error": True, "message": err.messages}), 400
                 )
             return f(*args, entity=entity, **kwargs)
 
@@ -74,13 +66,16 @@ def marshal_with(schema, template=None):
                 return make_response(jsonify(res), status_code)
             except IntegrityError as err:
                 print("error found")
-                return make_response(jsonify(
-                    {
-                        "error": True,
-                        "success": False,
-                        "message": err.orig.pgerror,
-                    }
-                ), 400)
+                return make_response(
+                    jsonify(
+                        {
+                            "error": True,
+                            "success": False,
+                            "message": err.orig.pgerror,
+                        }
+                    ),
+                    400,
+                )
 
         return decorated_function
 
@@ -100,18 +95,14 @@ def parse_request(arguments):
                         for param in params.getlist(argument.name) or []
                     ]
                 elif params.get(argument.name):
-                    data[argument.name] = argument.type(
-                        params.get(argument.name)
-                    )
+                    data[argument.name] = argument.type(params.get(argument.name))
                 elif argument.default:
                     data[argument.name] = argument.default
                 elif argument.required:
                     return (
                         jsonify(
                             error=True,
-                            messages="Parameter {} is required".format(
-                                argument.name
-                            ),
+                            messages="Parameter {} is required".format(argument.name),
                         ),
                         400,
                     )
@@ -123,9 +114,7 @@ def parse_request(arguments):
 
 
 class Argument(object):
-    def __init__(
-        self, name, default=None, type=str, required=False, append=False
-    ):
+    def __init__(self, name, default=None, type=str, required=False, append=False):
         self.name = name
         self.default = default
         self.type = type
