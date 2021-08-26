@@ -1,9 +1,9 @@
 from flask_restful import Resource
 from flask import jsonify
-from poetry_demo.repositories.user_repository import UserRepository
-from poetry_demo.helpers.decorators import marshal_with, parse_with
-from poetry_demo.schemas.user_schemas import UserSchema, UserCreateSchema
-from poetry_demo.models import User
+from api.repositories.user_repository import UserRepository
+from api.helpers.decorators import marshal_with, parse_with
+from api.schemas.user_schemas import UserSchema, UserCreateSchema
+from api.models import User
 
 
 class UserCollectionResource(Resource):

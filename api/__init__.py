@@ -1,9 +1,9 @@
 from flask import Flask
 from flask_migrate import Migrate
 from flask_cors import CORS
-from poetry_demo.blueprints import blueprint
+from api.blueprints import blueprint
 from flask_marshmallow import Marshmallow
-from poetry_demo.database import setup_db
+from api.database import setup_db
 
 __version__ = "0.1.0"
 

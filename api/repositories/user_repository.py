@@ -1,5 +1,5 @@
-from poetry_demo.repositories import BaseRepository
-from poetry_demo.models.user_models import User
+from api.repositories import BaseRepository
+from api.models.user_models import User
 
 
 class UserRepository(BaseRepository):

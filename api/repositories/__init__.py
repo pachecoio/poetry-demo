@@ -1,6 +1,6 @@
 from flask import jsonify, current_app
 from sqlalchemy import exc
-from poetry_demo.exceptions import ApiError
+from api.exceptions import ApiError
 
 
 class BaseRepository(object):

@@ -1,4 +1,4 @@
-from poetry_demo.database import db
+from api.database import db
 from sqlalchemy import Column, Integer, String
 
 

@@ -1,7 +1,7 @@
 from functools import wraps
 from flask import request, jsonify, make_response
 from marshmallow import ValidationError
-from poetry_demo.exceptions import ApiError
+from api.exceptions import ApiError
 from sqlalchemy.exc import IntegrityError
 
 

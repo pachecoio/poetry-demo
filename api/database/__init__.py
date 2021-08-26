@@ -17,7 +17,7 @@ database_path = os.environ.get("DATABASE_PATH") or "postgresql://{}:{}@{}:{}/{}"
 
 db = SQLAlchemy()
 # import models to initialize them
-import poetry_demo.models
+import api.models
 
 
 def setup_db(app, database_path=database_path):
