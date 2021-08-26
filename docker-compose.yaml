@@ -1,0 +1,46 @@
+# Use postgres/example user/password credentials
+version: '3.7'
+
+services:
+
+  poetry-db:
+    container_name: poetry-db
+    image: postgres
+    # restart: always
+    environment:
+      - POSTGRES_USER=${USER}
+      - POSTGRES_PASSWORD=${PASSWORD}
+      - POSTGRES_DB=${DB}
+    volumes:
+      - postgres-db:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - poetry-demo-network
+
+  poetry-demo:
+    image: thisk8brd/poetry-demo
+    container_name: poetry-demo
+    build: 
+      context: .
+      target: base
+    # restart: always
+    ports:
+      - "5000:5000"
+    volumes:
+      - .:/usr/src/app
+    depends_on:
+      - poetry-db
+    environment:
+      - FLASK_DEBUG=1
+      - DEBUGGER=True
+      - DATABASE_PATH=postgresql://${USER}:${PASSWORD}@poetry-db:5432/${DB}
+    networks:
+      - poetry-demo-network
+
+volumes:
+  postgres-db:
+
+networks:
+  poetry-demo-network:
+    name: poetry-demo-network
