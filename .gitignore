@@ -1,3 +1,5 @@
 .pytest_cache
 migrations
 __pycache__
+*.db
+.idea

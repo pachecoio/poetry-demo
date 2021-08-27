@@ -11,7 +11,7 @@ user = os.environ.get("USER") or "postgres"
 password = os.environ.get("PASSWORD") or "root"
 host = "db"
 port = "5432"
-database_path = os.environ.get("DATABASE_PATH") or "postgresql://{}:{}@{}:{}/{}".format(
+DATABASE_PATH = os.environ.get("DATABASE_PATH") or "postgresql://{}:{}@{}:{}/{}".format(
     user, password, host, port, database_name
 )
 
@@ -21,7 +21,11 @@ db = SQLAlchemy()
 import api.models
 
 
-def setup_db(app, database_path=database_path):
+def db_drop_and_create_all():
+    db.drop_all()
+    db.create_all()
+
+def setup_db(app, database_path=DATABASE_PATH):
     """
     setup_db(app)
     binds a flask application and a SQLAlchemy service
