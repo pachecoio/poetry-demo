@@ -15,7 +15,6 @@ DATABASE_PATH = os.environ.get("DATABASE_PATH") or "postgresql://{}:{}@{}:{}/{}"
     user, password, host, port, database_name
 )
 
-
 db = SQLAlchemy()
 # import models to initialize them
 import api.models
@@ -25,13 +24,14 @@ def db_drop_and_create_all():
     db.drop_all()
     db.create_all()
 
-def setup_db(app, database_path=DATABASE_PATH):
+
+def setup_db(app, database_path=None):
     """
     setup_db(app)
     binds a flask application and a SQLAlchemy service
     """
-    print("connect to db {}".format(database_path))
-    app.config["SQLALCHEMY_DATABASE_URI"] = database_path
+    print("connect to db {}".format(database_path or DATABASE_PATH))
+    app.config["SQLALCHEMY_DATABASE_URI"] = database_path or DATABASE_PATH
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     db.app = app
     db.init_app(app)
